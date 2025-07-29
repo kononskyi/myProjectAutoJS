@@ -1,0 +1,26 @@
+{
+  "name": "myprojectautojs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test tests",
+    "test:ui": "npx playwright test tests --ui",
+    "test:debug": "npx playwright test tests --debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kononskyi/myProjectAutoJS.git"
+  },
+  "keywords": [],
+  "author": "O.Kononskyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kononskyi/myProjectAutoJS/issues"
+  },
+  "homepage": "https://github.com/kononskyi/myProjectAutoJS#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0"
+  }
+}
