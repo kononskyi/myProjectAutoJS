@@ -1,6 +1,6 @@
 # myProjectAutoJS
 
-Testing project
+The project covers https://practicesoftwaretesting.com site functionality testing using NodeJS, Typescript, Playwright
 
 ## Requirements
 
@@ -9,9 +9,15 @@ Testing project
 
 ## Setup
 
+Install project dependencies:
 ```
 npm install
 ```
+Run Tests:
 ```
 npm run test
+```
+Show HTML reports:
+```
+ npm run report
 ```

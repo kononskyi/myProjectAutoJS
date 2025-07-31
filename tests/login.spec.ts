@@ -9,7 +9,7 @@ test('Login test with valid credentials', async ({ page }) => {
   await page.getByPlaceholder('Your password', { exact: true }).fill(password);
   await page.locator('.btnSubmit').click();
 
-  const loggedPageTitleText: string = await page.locator('[data-test= page-title]').innerText();
+  const loggedPageTitleText: string = await page.getByTestId('page-title').innerText();
   const userNameNavigationMenuText: string = await page.locator('#menu').innerText();
 
   await expect(page).toHaveURL('/account');
