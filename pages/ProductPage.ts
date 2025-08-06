@@ -18,7 +18,7 @@ export class ProductPage {
     }
 
     async getProductPrice() {
-        return await this.productPrice.innerText();
+        return this.productPrice.innerText();
     }
 
 }

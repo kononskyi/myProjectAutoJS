@@ -13,5 +13,9 @@ export class HomePage {
         const element = this.card.filter({ hasText: `${name}` });
         await element.click();
     }
-    
+
+    async open() {
+        await this.page.goto('', { waitUntil: 'load' });
+    }
+
 }

@@ -19,5 +19,8 @@ export class LoginPage {
         await this.passwordField.fill(password);
         await this.submitButton.click();
     }
-    
+
+    async open() {
+        await this.page.goto('/auth/login', { waitUntil: 'load' });
+    }
 }
