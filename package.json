@@ -5,8 +5,10 @@
   "scripts": {
     "test": "npx playwright test tests",
     "test:ui": "npx playwright test tests --ui",
+    "test:visual": "npx playwright test --headed",
     "test:debug": "npx playwright test tests --debug",
-    "report": "npx playwright show-report"
+    "report": "npx playwright show-report",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,12 @@
   "homepage": "https://github.com/kononskyi/myProjectAutoJS#readme",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.32.0",
     "@playwright/test": "^1.54.1",
-    "@types/node": "^24.1.0"
+    "@types/node": "^24.1.0",
+    "eslint": "^9.32.0",
+    "eslint-plugin-playwright": "^2.2.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
   }
 }

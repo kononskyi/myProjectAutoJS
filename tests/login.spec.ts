@@ -1,20 +1,16 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+import { AccountPage } from '../pages/AccountPage';
 
 test('Login test with valid credentials', async ({ page }) => {
-  const email: string = 'customer@practicesoftwaretesting.com';
-  const password: string = 'welcome01';
+  const loginPage = new LoginPage(page);
+  const accountPage = new AccountPage(page);
 
-  await page.goto('/auth/login', { waitUntil: 'load' });
-  await page.locator('#email').fill(email);
-  await page.getByPlaceholder('Your password', { exact: true }).fill(password);
-  await page.locator('.btnSubmit').click();
-
-  const loggedPageTitleText: string = await page.getByTestId('page-title').innerText();
-  const userNameNavigationMenuText: string = await page.locator('#menu').innerText();
+  await loginPage.open();
+  await loginPage.login('customer@practicesoftwaretesting.com', 'welcome01');
 
   await expect(page).toHaveURL('/account');
-  expect(loggedPageTitleText).toEqual('My account');
-  expect(userNameNavigationMenuText).toContain('Jane Doe');
-
+  await expect(accountPage.title).toContainText('My account');
+  await expect(accountPage.headerFragment.menuTitle).toContainText('Jane Doe');
 });
 
