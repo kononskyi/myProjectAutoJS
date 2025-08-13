@@ -1,17 +1,21 @@
 import { Locator, Page } from "@playwright/test";
+import { BasicPage } from "./BasicPage";
 
-export class LoginPage {
+export class LoginPage extends BasicPage {
 
-    page: Page;
     emailField: Locator;
     passwordField: Locator;
     submitButton: Locator;
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.emailField = this.page.locator('#email');
         this.passwordField = this.page.getByPlaceholder('Your password', { exact: true });
         this.submitButton = this.page.locator('.btnSubmit');
+    }
+
+    async open(): Promise<void> {
+        await this.page.goto('/auth/login', { waitUntil: 'load' });
     }
 
     async login(email: string, password: string): Promise<void> {
@@ -20,7 +24,4 @@ export class LoginPage {
         await this.submitButton.click();
     }
 
-    async open() {
-        await this.page.goto('/auth/login', { waitUntil: 'load' });
-    }
 }
