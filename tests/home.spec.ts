@@ -1,51 +1,48 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from 'pages/HomePage';
-import { PowerTools } from 'pages/fragments/SideFiltersFragment';
+import { PowerTools, SortOption } from 'pages/fragments/SideFiltersFragment';
+import { arraySorting, checkArraysEquality } from 'pages/helpers/arraysUtils';
 
-test('Verify user can perform sorting by name (asc & desc)', async ({ page }) => {
-    const homePage = new HomePage(page);
-
-    const data = [
-        {
-            dropdownSortType: 'name,desc',
-            manualSortType: 'desc'
-        },
-        {
-            dropdownSortType: 'name,asc',
-            manualSortType: 'asc'
-        }
-    ];
-
-    for (const element of data) {
-        await homePage.open();
-        await homePage.sideFiltersFragment.sortProductsByName(element.dropdownSortType);
-        const afterSortingCardsNames = await homePage.getProductCardsNames();
-        const afterSortingManual = homePage.arraySorting(await homePage.getProductCardsNames(), element.manualSortType);
-        expect(homePage.checkArraysEquality(afterSortingCardsNames, afterSortingManual!)).toBeTruthy();
+[
+    {
+        dropdownSortType: SortOption.BY_NAME_DESC,
+        manualSortType: 'desc'
+    },
+    {
+        dropdownSortType: SortOption.BY_NAME_ASC,
+        manualSortType: 'asc'
     }
+].forEach(({ dropdownSortType, manualSortType }) => {
+    test(`Verify user can perform sorting by ${dropdownSortType}`, async ({ page }) => {
+        const homePage = new HomePage(page);
+
+        await homePage.open();
+        await homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
+        const afterSortingCardsNames = await homePage.getProductCardsNames();
+        const afterSortingManual = arraySorting(await homePage.getProductCardsNames(), manualSortType);
+        expect(checkArraysEquality(afterSortingCardsNames, afterSortingManual)).toBeTruthy();
+    });
 });
 
-test('Verify user can perform sorting by price (asc & desc)', async ({ page }) => {
-    const homePage = new HomePage(page);
-
-    const data = [
-        {
-            dropdownSortType: 'price,desc',
-            manualSortType: 'desc'
-        },
-        {
-            dropdownSortType: 'price,asc',
-            manualSortType: 'asc'
-        }
-    ];
-
-    for (const element of data) {
-        await homePage.open();
-        await homePage.sideFiltersFragment.sortProductsByName(element.dropdownSortType);
-        const afterSortingCardsPrices = await homePage.getProductCardsPrices();
-        const afterSortingManual = homePage.arraySorting(await homePage.getProductCardsPrices(), element.manualSortType);
-        expect(homePage.checkArraysEquality(afterSortingCardsPrices, afterSortingManual!)).toBeTruthy();
+[
+    {
+        dropdownSortType: SortOption.BY_PRICE_DESC,
+        manualSortType: 'desc'
+    },
+    {
+        dropdownSortType: SortOption.BY_PRICE_ASC,
+        manualSortType: 'asc'
     }
+].forEach(({ dropdownSortType, manualSortType }) => {
+    test(`Verify user can perform sorting by ${dropdownSortType}`, async ({ page }) => {
+        const homePage = new HomePage(page);
+
+        await homePage.open();
+        await homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
+        const afterSortingCardsPrices = await homePage.getProductCardsPrices();
+        const afterSortingManual = arraySorting(await homePage.getProductCardsPrices(), manualSortType);
+        expect(checkArraysEquality(afterSortingCardsPrices, afterSortingManual)).toBeTruthy();
+    });
 });
 
 test('Verify user can filter products by category', async ({ page }) => {

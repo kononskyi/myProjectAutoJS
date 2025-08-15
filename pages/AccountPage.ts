@@ -3,6 +3,7 @@ import { HeaderFragment } from "./fragments/HeaderFragment";
 import { BasicPage } from "./BasicPage";
 
 export class AccountPage extends BasicPage {
+    
     title: Locator;
     headerFragment: HeaderFragment;
 

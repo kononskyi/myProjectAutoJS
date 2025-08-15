@@ -3,6 +3,7 @@ import { HeaderFragment } from "./fragments/HeaderFragment";
 import { BasicPage } from "./BasicPage";
 
 export class ProductPage extends BasicPage {
+    
     productTitle: Locator;
     productPrice: Locator;
     addToCartButton: Locator;

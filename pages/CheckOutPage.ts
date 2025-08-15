@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import { BasicPage } from "./BasicPage";
 
 export class CheckOutPage extends BasicPage {
+    
     readonly proceedToCheckOutButton: Locator;
     readonly productsTitle: Locator;
 
