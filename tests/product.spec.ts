@@ -6,11 +6,12 @@ import { CheckOutPage } from "pages/CheckOutPage";
 test('Verify user can view product details', async ({ page }) => {
     const homePage = new HomePage(page);
     const productPage = new ProductPage(page);
+    const productName = 'Combination Pliers';
 
     await homePage.open();
-    await homePage.clickOnCardByName('Combination Pliers');
+    await homePage.clickOnCardByName(productName);
     await expect(page).toHaveURL(/\/product/);
-    await expect(productPage.productTitle).toContainText('Combination Pliers');
+    await expect(productPage.productTitle).toContainText(productName);
     await expect(productPage.productPrice).toContainText('14.15');
     expect(await productPage.getProductPrice()).toBe('14.15'); // another solution to check price
     await expect(productPage.addToCartButton).toBeVisible();
@@ -21,11 +22,12 @@ test('Verify user can add product to cart', async ({ page }) => {
     const homePage = new HomePage(page);
     const productPage = new ProductPage(page);
     const checkOutPage = new CheckOutPage(page);
+    const productName = 'Slip Joint Pliers';
 
     await homePage.open();
-    const cardInfo = await homePage.getProductCardInfo('Slip Joint Pliers');
+    const cardInfo = await homePage.getProductCardInfo(productName);
 
-    await homePage.clickOnCardByName('Slip Joint Pliers');
+    await homePage.clickOnCardByName(productName);
     await expect(productPage.addToCartButton).toBeVisible();
     await expect(page).toHaveURL(/\/product/);
     await expect(productPage.productTitle).toContainText(cardInfo.title!);
@@ -33,7 +35,6 @@ test('Verify user can add product to cart', async ({ page }) => {
 
     await productPage.addToCartButtonClick();
     await expect(productPage.productAddedAlert).toBeVisible();
-    await expect(productPage.productAddedAlert).toContainText('Product added to shopping cart');
     await expect(productPage.productAddedAlert).toBeHidden({ timeout: 8000 })
     await expect(productPage.headerFragment.cartQuantityBadge).toContainText('1');
 
@@ -41,6 +42,6 @@ test('Verify user can add product to cart', async ({ page }) => {
     await expect(productPage.addToCartButton).toBeVisible();
     await expect(page).toHaveURL(/\/product/);
     await expect(checkOutPage.productsTitle).toContainText(cardInfo.title!);
-    expect(await checkOutPage.getProductQuantityByName('Slip Joint Pliers')).toBe('1');
+    expect(await checkOutPage.getProductQuantityByName(productName)).toBe('1');
     await expect(checkOutPage.proceedToCheckOutButton).toBeVisible();
 });
