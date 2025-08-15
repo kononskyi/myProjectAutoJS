@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from 'pages/HomePage';
 import { PowerTools, SortOption } from 'pages/fragments/SideFiltersFragment';
-import { arraySorting, checkArraysEquality } from 'pages/helpers/arraysUtils';
+import { arraySorting } from 'pages/helpers/arraysUtils';
 
 [
     {
@@ -20,7 +20,7 @@ import { arraySorting, checkArraysEquality } from 'pages/helpers/arraysUtils';
         await homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
         const afterSortingCardsNames = await homePage.getProductCardsNames();
         const afterSortingManual = arraySorting(await homePage.getProductCardsNames(), manualSortType);
-        expect(checkArraysEquality(afterSortingCardsNames, afterSortingManual)).toBeTruthy();
+        expect(afterSortingCardsNames).toEqual(afterSortingManual);
     });
 });
 
@@ -41,7 +41,7 @@ import { arraySorting, checkArraysEquality } from 'pages/helpers/arraysUtils';
         await homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
         const afterSortingCardsPrices = await homePage.getProductCardsPrices();
         const afterSortingManual = arraySorting(await homePage.getProductCardsPrices(), manualSortType);
-        expect(checkArraysEquality(afterSortingCardsPrices, afterSortingManual)).toBeTruthy();
+        expect(afterSortingCardsPrices).toEqual(afterSortingManual);
     });
 });
 
