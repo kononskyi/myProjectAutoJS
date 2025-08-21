@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test tests",
-    "test:ui": "npx playwright test tests --ui",
-    "test:visual": "npx playwright test --headed",
-    "test:debug": "npx playwright test tests --debug",
+    "ui": "npx playwright test tests --ui",
+    "visual": "npx playwright test --headed",
+    "debug": "npx playwright test tests --debug",
+    "repeat-matched": "npx playwright test tests --grep=@test --repeat-each=3",
     "report": "npx playwright show-report",
     "lint": "npx eslint ."
   },

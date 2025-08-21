@@ -3,7 +3,7 @@ import { BasicPage } from "./BasicPage";
 import { SideFiltersFragment } from "./fragments/SideFiltersFragment";
 
 export class HomePage extends BasicPage {
-    
+
     card: Locator;
     sortDropdown: Locator;
     sideFiltersFragment: SideFiltersFragment;
@@ -40,6 +40,10 @@ export class HomePage extends BasicPage {
 
     async getProductCardsNames(): Promise<Array<string>> {
         return this.card.getByTestId('product-name').allInnerTexts();
+    }
+
+    async getFirstProductCardName(): Promise<string> {
+        return this.card.getByTestId('product-name').first().innerText();
     }
 
     async getProductCardsPrices(): Promise<Array<string>> {
