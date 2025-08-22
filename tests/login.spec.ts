@@ -1,18 +1,14 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
+import { expect } from '@playwright/test';
+import { test } from '../fixtures/myFixtures';
 import { AccountPage } from '../pages/AccountPage';
 import { authData } from 'authData';
 
-test('Login test with valid credentials', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const accountPage = new AccountPage(page);
-
-  await loginPage.open();
-  await loginPage.login(authData.email, authData.password);
-
+test('Login test with valid credentials using fixtures', async ({ allPages, page }) => {
+  await allPages.loginPage.open();
+  await allPages.loginPage.login(authData.email, authData.password);
+  await expect(allPages.accountPage.title).toContainText('My account');
   await expect(page).toHaveURL('/account');
-  await expect(accountPage.title).toContainText('My account');
-  await expect(accountPage.headerFragment.menuTitle).toContainText(authData.name);
+  await expect(allPages.accountPage.headerFragment.menuTitle).toContainText(authData.name);
 });
 
 test.describe('Login tests using storage file', () => {

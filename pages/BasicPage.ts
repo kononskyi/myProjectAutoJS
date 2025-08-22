@@ -1,5 +1,4 @@
 import { Page } from "@playwright/test";
-
 export abstract class BasicPage {
 
     readonly page: Page;
