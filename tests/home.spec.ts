@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from 'fixtures/myFixtures';
-import { PowerTools, SortOption } from 'pages/fragments/SideFiltersFragment';
+import { SortOption } from '../common-data/sideFiltersFragmentTestData';
+import { PowerTools } from 'pages/fragments/SideFiltersFragment';
 import { arraySorting } from 'pages/helpers/arraysUtils';
 
 [

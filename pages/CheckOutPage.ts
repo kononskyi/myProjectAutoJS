@@ -54,6 +54,11 @@ export class CheckOutPage extends BasicPage {
     async getProductItemsCount(): Promise<number> {
         return this.productItems.getByTestId('product-title').count();
     }
+
+    get getProductItems(): Locator {
+        return this.productItems.getByTestId('product-title');
+    }
+
     private getProductItemByName(name: string): Locator {
         return this.productItems.filter({ hasText: `${name}` });
     }
@@ -119,10 +124,3 @@ interface CheckOutItemInfo {
     total: string
 }
 
-export enum PaymentMethod {
-    BANK_TRANSFER = 'Bank Transfer',
-    CASH_ON_DELIVERY = 'Cash on Delivery',
-    CREDIT_CARD = 'Credit Card',
-    BUY_NOW_PAY_LATER = 'Buy Now Pay Later',
-    GIFT_CARD = 'Gift Card'
-}

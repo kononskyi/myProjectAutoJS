@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/myFixtures';
 import { creditCardValidData } from 'creditCardValidData';
-import { PaymentMethod } from '../pages/CheckOutPage'
+import { PaymentMethod } from '../common-data/paymentsTestData'
 
 test('Verify user can make an order by Credit Card', async ({ loggedInApp }) => {
     await loggedInApp.homePage.open();
@@ -39,7 +39,7 @@ test('Verify user can make an order by Credit Card', async ({ loggedInApp }) => 
     await loggedInApp.invoicesPage.open();
     expect(await loggedInApp.invoicesPage.getInvoicesNumbers()).toContain(orderNumber);
     await loggedInApp.checkOutPage.open();
-    expect(await loggedInApp.checkOutPage.getProductItemsCount()).toEqual(0);
+    await expect(loggedInApp.checkOutPage.getProductItems).toHaveCount(0);
 
 });
 

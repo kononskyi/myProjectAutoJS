@@ -29,7 +29,6 @@ export const test = base.extend<Pages>({
         const page = await context.newPage();
         const allPages = new AllPages(page);
         await use(allPages);
-        await page.close();
         await context.close();
     }
 })
