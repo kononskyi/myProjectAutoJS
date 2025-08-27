@@ -6,6 +6,7 @@ type Pages = {
     allPages: AllPages;
     loggedInApp: AllPages;
     loggedInAppUI: AllPages;
+    loggedInAppApi: AllPages;
 }
 
 export const test = base.extend<Pages>({
@@ -23,6 +24,23 @@ export const test = base.extend<Pages>({
         await use(allPages);
     },
 
+    //----------Login By API -------
+    loggedInAppApi: async ({ request, allPages, page }, use) => {
+        const response = await request.post('https://api.practicesoftwaretesting.com/users/login', {
+            data: {
+                email: authData.email,
+                password: authData.password
+            }
+        });
+        const jsonData = await response.json() as LoginResponse;
+        const token = jsonData.access_token;
+        await page.goto('');
+        await page.evaluate((token) => {
+            localStorage.setItem('auth-token', token);
+        }, token);
+        await use(allPages);
+    },
+
     //----------Login by cookies-------
     loggedInApp: async ({ browser }, use) => {
         const context = await browser.newContext({ storageState: './playwright/.auth/user.json' });
@@ -32,3 +50,7 @@ export const test = base.extend<Pages>({
         await context.close();
     }
 })
+
+interface LoginResponse {
+    access_token: string
+}

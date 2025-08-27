@@ -48,3 +48,39 @@ test('Verify user can filter products by category', async ({ allPages }) => {
     expect(await allPages.homePage.checkProductNames('Sander')).toBeTruthy();
 });
 
+test("Mock GET /products response and check products count", async ({ page, allPages }) => {
+    const testProduct = {
+        data: [] as {
+            brand: object,
+            category: object,
+            description: string,
+            id: number,
+            name: string,
+            price: number,
+            product_image: object
+        }[]
+    }
+
+    for (let i = 0; i < 20; i++) {
+        testProduct.data.push(
+            {
+                brand: {},
+                category: {},
+                description: `Test description ${i}`,
+                id: i,
+                name: `Test name ${i}`,
+                price: 20.20 + i,
+                product_image: {}
+            }
+        )
+    }
+
+    await page.route('https://api.practicesoftwaretesting.com/products*', async route => {
+        await route.fulfill({ json: testProduct });
+    });
+
+    await allPages.homePage.open();
+    await expect(allPages.homePage.card).toHaveCount(20);
+
+});
+
