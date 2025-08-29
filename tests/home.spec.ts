@@ -3,6 +3,7 @@ import { test } from 'fixtures/myFixtures';
 import { SortOption } from '../common-data/sideFiltersFragmentTestData';
 import { PowerTools } from 'pages/fragments/SideFiltersFragment';
 import { arraySorting } from 'pages/helpers/arraysUtils';
+import { generateProducts } from 'pages/helpers/productsUtils';
 
 [
     {
@@ -46,5 +47,17 @@ test('Verify user can filter products by category', async ({ allPages }) => {
     await allPages.homePage.open();
     await allPages.homePage.sideFiltersFragment.selectCheckbox(PowerTools.SANDER);
     expect(await allPages.homePage.checkProductNames('Sander')).toBeTruthy();
+});
+
+test("Mock GET /products response and check products count", async ({ page, allPages }) => {
+    const productsArray = generateProducts(20);
+    const apiUrl = process.env.BASE_API_URL;
+    await page.route(`${apiUrl}/products*`, async route => {
+        await route.fulfill({ json: productsArray });
+    });
+
+    await allPages.homePage.open();
+    await expect(allPages.homePage.card).toHaveCount(20);
+
 });
 

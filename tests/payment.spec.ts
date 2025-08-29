@@ -3,43 +3,43 @@ import { test } from '../fixtures/myFixtures';
 import { creditCardValidData } from 'creditCardValidData';
 import { PaymentMethod } from '../common-data/paymentsTestData'
 
-test('Verify user can make an order by Credit Card', async ({ loggedInApp }) => {
-    await loggedInApp.homePage.open();
-    const firstCardName = await loggedInApp.homePage.getFirstProductCardName();
-    const cardDataFromHomePage = await loggedInApp.homePage.getProductCardInfo(firstCardName);
-    await loggedInApp.homePage.clickOnCardByName(firstCardName);
-    await loggedInApp.productPage.addToCartButtonClick();
-    await expect(loggedInApp.productPage.productAddedAlert).toBeHidden({ timeout: 8000 })
-    await loggedInApp.productPage.headerFragment.cartClick();
+test('Verify user can make an order by Credit Card', async ({ loggedInAppApi }) => {
+    await loggedInAppApi.homePage.open();
+    const firstCardName = await loggedInAppApi.homePage.getFirstProductCardName();
+    const cardDataFromHomePage = await loggedInAppApi.homePage.getProductCardInfo(firstCardName);
+    await loggedInAppApi.homePage.clickOnCardByName(firstCardName);
+    await loggedInAppApi.productPage.addToCartButtonClick();
+    await expect(loggedInAppApi.productPage.productAddedAlert).toBeHidden({ timeout: 8000 })
+    await loggedInAppApi.productPage.headerFragment.cartClick();
 
     //Cart (1)
-    const cardDataFromCheckOutPage = await loggedInApp.checkOutPage.getProductItemInfo(firstCardName);
+    const cardDataFromCheckOutPage = await loggedInAppApi.checkOutPage.getProductItemInfo(firstCardName);
     expect(cardDataFromHomePage.title).toEqual(cardDataFromCheckOutPage.title);
     expect(cardDataFromHomePage.price).toEqual(cardDataFromCheckOutPage.price);
-    await loggedInApp.checkOutPage.proceedToCheckOutButtonClick();
+    await loggedInAppApi.checkOutPage.proceedToCheckOutButtonClick();
 
     //Sign In (2)
-    await expect(loggedInApp.checkOutPage.alreadyLoggedMessage).toBeVisible();
-    await loggedInApp.checkOutPage.proceedToCheckOutButtonClick();
-    await loggedInApp.checkOutPage.fillState('Burgenland');
-    await loggedInApp.checkOutPage.fillPostCode('1234');
-    await loggedInApp.checkOutPage.proceedToCheckOutButtonClick();
+    await expect(loggedInAppApi.checkOutPage.alreadyLoggedMessage).toBeVisible();
+    await loggedInAppApi.checkOutPage.proceedToCheckOutButtonClick();
+    await loggedInAppApi.checkOutPage.fillState('Burgenland');
+    await loggedInAppApi.checkOutPage.fillPostCode('1234');
+    await loggedInAppApi.checkOutPage.proceedToCheckOutButtonClick();
 
     //Billing Address (3)
-    await loggedInApp.checkOutPage.selectPaymentMethod(PaymentMethod.CREDIT_CARD);
-    await loggedInApp.checkOutPage.fillCreditCardDataAndContinue(
+    await loggedInAppApi.checkOutPage.selectPaymentMethod(PaymentMethod.CREDIT_CARD);
+    await loggedInAppApi.checkOutPage.fillCreditCardDataAndContinue(
         creditCardValidData.creditCardNumber, creditCardValidData.creditCardExpirationDate,
         creditCardValidData.creditCardCvv, creditCardValidData.creditCardHolderName);
-    await expect(loggedInApp.checkOutPage.paymentConfirmationMessage).toBeVisible();
-    await loggedInApp.checkOutPage.confirmButtonClick();
+    await expect(loggedInAppApi.checkOutPage.paymentConfirmationMessage).toBeVisible();
+    await loggedInAppApi.checkOutPage.confirmButtonClick();
 
     //Payment (4)
-    const orderNumber = await loggedInApp.checkOutPage.getOrderConfirmationNumber();
+    const orderNumber = await loggedInAppApi.checkOutPage.getOrderConfirmationNumber();
 
-    await loggedInApp.invoicesPage.open();
-    expect(await loggedInApp.invoicesPage.getInvoicesNumbers()).toContain(orderNumber);
-    await loggedInApp.checkOutPage.open();
-    await expect(loggedInApp.checkOutPage.getProductItems).toHaveCount(0);
+    await loggedInAppApi.invoicesPage.open();
+    expect(await loggedInAppApi.invoicesPage.getInvoicesNumbers()).toContain(orderNumber);
+    await loggedInAppApi.checkOutPage.open();
+    await expect(loggedInAppApi.checkOutPage.getProductItems).toHaveCount(0);
 
 });
 
