@@ -32,8 +32,8 @@ test('Verify user can add product to cart', async ({ allPages, page }) => {
     await expect(allPages.productPage.headerFragment.cartQuantityBadge).toContainText('1');
 
     await allPages.productPage.headerFragment.cartClick();
-    await expect(allPages.productPage.addToCartButton).toBeVisible();
-    await expect(page).toHaveURL(/\/product/);
+    await expect(allPages.checkOutPage.proceedToCheckOutButton).toBeVisible();
+    await expect(page).toHaveURL(/\/checkout/);
     await expect(allPages.checkOutPage.productsTitle).toContainText(cardInfo.title!);
     expect(await allPages.checkOutPage.getProductQuantityByName(productName)).toBe('1');
     await expect(allPages.checkOutPage.proceedToCheckOutButton).toBeVisible();

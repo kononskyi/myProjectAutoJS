@@ -26,7 +26,8 @@ export const test = base.extend<Pages>({
 
     //----------Login By API -------
     loggedInAppApi: async ({ request, allPages, page }, use) => {
-        const response = await request.post('https://api.practicesoftwaretesting.com/users/login', {
+        const apiUrl = process.env.BASE_API_URL;
+        const response = await request.post(`${apiUrl}/users/login`, {
             data: {
                 email: authData.email,
                 password: authData.password
