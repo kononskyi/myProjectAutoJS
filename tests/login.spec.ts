@@ -4,6 +4,7 @@ import { AccountPage } from '../pages/AccountPage';
 import { USER_EMAIL, USER_NAME, USER_PASSWORD } from 'config/baseConfig';
 
 test('Login test with valid credentials using fixtures', { tag: ['@smoke', '@regression'] }, async ({ allPages, page }) => {
+  test.skip(!!process.env.CI, 'Test is skipped on CI due to the Cloudflare protection.');
   await allPages.loginPage.open();
   await allPages.loginPage.login(USER_EMAIL, USER_PASSWORD);
   await expect(allPages.accountPage.title).toContainText('My account');
@@ -12,6 +13,7 @@ test('Login test with valid credentials using fixtures', { tag: ['@smoke', '@reg
 });
 
 test.describe('Login tests using storage file', { tag: '@smoke' }, () => {
+  test.skip(!!process.env.CI, 'Test is skipped on CI due to the Cloudflare protection.');
   test.use({ storageState: './playwright/.auth/user.json' });
   test('Login test with valid credentials', async ({ page }) => {
     const accountPage = new AccountPage(page);
