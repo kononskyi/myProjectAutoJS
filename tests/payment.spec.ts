@@ -3,7 +3,7 @@ import { test } from '../fixtures/myFixtures';
 import { creditCardValidData } from 'creditCardValidData';
 import { PaymentMethod } from '../common-data/paymentsTestData'
 
-test('Verify user can make an order by Credit Card', async ({ loggedInAppApi }) => {
+test('Verify user can make an order by Credit Card', { tag: '@regression' }, async ({ loggedInAppApi }) => {
     await loggedInAppApi.homePage.open();
     const firstCardName = await loggedInAppApi.homePage.getFirstProductCardName();
     const cardDataFromHomePage = await loggedInAppApi.homePage.getProductCardInfo(firstCardName);
