@@ -6,6 +6,7 @@ import path from "path";
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
 test('Login test with valid credentials', { tag: ['@smoke', '@regression'] }, async ({ allPages, page }) => {
+  test.skip(!!process.env.CI, 'Test is skipped on CI due to the Cloudflare protection.');
   await allPages.loginPage.open();
   await allPages.loginPage.login(USER_EMAIL, USER_PASSWORD);
   await expect(page).toHaveURL('/account');

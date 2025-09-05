@@ -1,11 +1,11 @@
-name: Playwright Tests
+name: Playwright Tests Basic
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  basic:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:

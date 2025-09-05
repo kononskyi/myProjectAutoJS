@@ -20,7 +20,8 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
       "@typescript-eslint/no-floating-promises": "error",
-      'no-console': 'error'
+      'no-console': 'error',
+      'no-skipped-test': 'off'
     }
   },
   {
