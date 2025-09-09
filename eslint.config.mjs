@@ -21,7 +21,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       "@typescript-eslint/no-floating-promises": "error",
       'no-console': 'error',
-      'no-skipped-test': 'off'
+      'playwright/no-skipped-test':'off'
     }
   },
   {
