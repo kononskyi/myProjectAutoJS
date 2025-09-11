@@ -1,17 +1,19 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/myFixtures';
 import { AccountPage } from '../pages/AccountPage';
-import { authData } from 'authData';
+import { USER_EMAIL, USER_NAME, USER_PASSWORD } from 'config/baseConfig';
 
-test('Login test with valid credentials using fixtures', async ({ allPages, page }) => {
+test('Login test with valid credentials using fixtures', { tag: ['@smoke', '@regression'] }, async ({ allPages, page }) => {
+  test.skip(!!process.env.CI, 'Test is skipped on CI due to the Cloudflare protection.');
   await allPages.loginPage.open();
-  await allPages.loginPage.login(authData.email, authData.password);
+  await allPages.loginPage.login(USER_EMAIL, USER_PASSWORD);
   await expect(allPages.accountPage.title).toContainText('My account');
   await expect(page).toHaveURL('/account');
-  await expect(allPages.accountPage.headerFragment.menuTitle).toContainText(authData.name);
+  await expect(allPages.accountPage.headerFragment.menuTitle).toContainText(USER_NAME);
 });
 
-test.describe('Login tests using storage file', () => {
+test.describe('Login tests using storage file', { tag: '@smoke' }, () => {
+  test.skip(!!process.env.CI, 'Test is skipped on CI due to the Cloudflare protection.');
   test.use({ storageState: './playwright/.auth/user.json' });
   test('Login test with valid credentials', async ({ page }) => {
     const accountPage = new AccountPage(page);

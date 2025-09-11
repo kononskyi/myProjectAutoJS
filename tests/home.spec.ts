@@ -4,6 +4,7 @@ import { SortOption } from '../common-data/sideFiltersFragmentTestData';
 import { PowerTools } from 'pages/fragments/SideFiltersFragment';
 import { arraySorting } from 'pages/helpers/arraysUtils';
 import { generateProducts } from 'pages/helpers/productsUtils';
+import { BASE_API_URL } from 'config/baseConfig';
 
 [
     {
@@ -15,7 +16,7 @@ import { generateProducts } from 'pages/helpers/productsUtils';
         manualSortType: 'asc'
     }
 ].forEach(({ dropdownSortType, manualSortType }) => {
-    test(`Verify user can perform sorting by ${dropdownSortType}`, async ({ allPages }) => {
+    test(`Verify user can perform sorting by ${dropdownSortType}`, { tag: '@regression' }, async ({ allPages }) => {
         await allPages.homePage.open();
         await allPages.homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
         const afterSortingCardsNames = await allPages.homePage.getProductCardsNames();
@@ -34,7 +35,7 @@ import { generateProducts } from 'pages/helpers/productsUtils';
         manualSortType: 'asc'
     }
 ].forEach(({ dropdownSortType, manualSortType }) => {
-    test(`Verify user can perform sorting by ${dropdownSortType}`, async ({ allPages }) => {
+    test(`Verify user can perform sorting by ${dropdownSortType}`, { tag: '@regression' }, async ({ allPages }) => {
         await allPages.homePage.open();
         await allPages.homePage.sideFiltersFragment.sortProductsByName(dropdownSortType);
         const afterSortingCardsPrices = await allPages.homePage.getProductCardsPrices();
@@ -43,15 +44,15 @@ import { generateProducts } from 'pages/helpers/productsUtils';
     });
 });
 
-test('Verify user can filter products by category', async ({ allPages }) => {
+test('Verify user can filter products by category', { tag: '@regression' }, async ({ allPages }) => {
     await allPages.homePage.open();
     await allPages.homePage.sideFiltersFragment.selectCheckbox(PowerTools.SANDER);
     expect(await allPages.homePage.checkProductNames('Sander')).toBeTruthy();
 });
 
-test("Mock GET /products response and check products count", async ({ page, allPages }) => {
+test("Mock GET /products response and check products count", { tag: '@regression' }, async ({ page, allPages }) => {
     const productsArray = generateProducts(20);
-    const apiUrl = process.env.BASE_API_URL;
+    const apiUrl = BASE_API_URL;
     await page.route(`${apiUrl}/products*`, async route => {
         await route.fulfill({ json: productsArray });
     });

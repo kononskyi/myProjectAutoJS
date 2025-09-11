@@ -1,7 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv'
-
-dotenv.config();
+import { BASE_URL, TESTOMATIO } from 'config/baseConfig';
 
 /**
  * Read environment variables from file.
@@ -25,14 +23,23 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html', { title: 'My test report', open: 'on-failure' }],
+    ['dot'],
+    ['json', { outputFile: 'json-report/result.json' }],
+    ['./node_modules/@testomatio/reporter/lib/adapter/playwright.js', { apiKey: TESTOMATIO }]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL,
+    baseURL: BASE_URL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    screenshot: 'only-on-failure',
+
+    video: 'on-first-retry',
 
     testIdAttribute: 'data-test'
   },
@@ -48,6 +55,20 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['auth']
+    },
+
+    {
+      name: 'smoke',
+      use: { ...devices['Desktop Chrome'] },
+      dependencies: ['auth'],
+      grep: /@smoke/
+    },
+
+    {
+      name: 'regression',
+      use: { ...devices['Desktop Chrome'] },
+      dependencies: ['auth'],
+      grep: /@regression/
     },
 
     /*    {
